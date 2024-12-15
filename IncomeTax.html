@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Income Tax Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .calculator {
+            margin: 20px auto;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        input, select, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Income Tax Calculator</h1>
+    <div class="calculator">
+        <label for="income">Enter Your Annual Income:</label>
+        <input type="number" id="income" placeholder="Enter income">
+
+        <label for="filing-status">Select Filing Status:</label>
+        <select id="filing-status">
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="head">Head of Household</option>
+        </select>
+
+        <button onclick="calculateTax()">Calculate Tax</button>
+
+        <p id="tax-result">Tax Owed: </p>
+    </div>
+
+    <script>
+        function calculateTax() {
+            const income = parseFloat(document.getElementById("income").value);
+            const filingStatus = document.getElementById("filing-status").value;
+            let taxOwed;
+
+            if (isNaN(income) || income < 0) {
+                document.getElementById("tax-result").innerText = "Please enter a valid income.";
+                return;
+            }
+
+            // Simplified tax brackets
+            if (filingStatus === "single") {
+                if (income <= 9950) {
+                    taxOwed = income * 0.10;
+                } else if (income <= 40525) {
+                    taxOwed = 995 + (income - 9950) * 0.12;
+                } else if (income <= 86375) {
+                    taxOwed = 4664 + (income - 40525) * 0.22;
+                } else {
+                    taxOwed = 14751 + (income - 86375) * 0.24;
+                }
+            } else if (filingStatus === "married") {
+                if (income <= 19900) {
+                    taxOwed = income * 0.10;
+                } else if (income <= 81050) {
+                    taxOwed = 1990 + (income - 19900) * 0.12;
+                } else if (income <= 172750) {
+                    taxOwed = 9328 + (income - 81050) * 0.22;
+                } else {
+                    taxOwed = 29502 + (income - 172750) * 0.24;
+                }
+            } else if (filingStatus === "head") {
+                if (income <= 14200) {
+                    taxOwed = income * 0.10;
+                } else if (income <= 54200) {
+                    taxOwed = 1420 + (income - 14200) * 0.12;
+                } else if (income <= 86350) {
+                    taxOwed = 6220 + (income - 54200) * 0.22;
+                } else {
+                    taxOwed = 13293 + (income - 86350) * 0.24;
+                }
+            } else {
+                document.getElementById("tax-result").innerText = "Invalid filing status.";
+                return;
+            }
+
+            document.getElementById("tax-result").innerText = `Tax Owed: $${taxOwed.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
