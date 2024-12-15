@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Payroll Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .calculator {
+            margin: 20px auto;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Payroll Calculator</h1>
+    <div class="calculator">
+        <label for="hours">Enter Hours Worked:</label>
+        <input type="number" id="hours" placeholder="Enter hours worked">
+
+        <label for="rate">Enter Hourly Rate:</label>
+        <input type="number" id="rate" placeholder="Enter hourly rate">
+
+        <button onclick="calculatePayroll()">Calculate Payroll</button>
+
+        <p id="gross-pay">Gross Pay: </p>
+        <p id="tax-deduction">Tax Deduction (20%): </p>
+        <p id="net-pay">Net Pay: </p>
+    </div>
+
+    <script>
+        function calculatePayroll() {
+            const hours = parseFloat(document.getElementById("hours").value);
+            const rate = parseFloat(document.getElementById("rate").value);
+
+            if (isNaN(hours) || hours <= 0 || isNaN(rate) || rate <= 0) {
+                document.getElementById("gross-pay").innerText = "Gross Pay: Please enter valid inputs.";
+                document.getElementById("tax-deduction").innerText = "Tax Deduction: Please enter valid inputs.";
+                document.getElementById("net-pay").innerText = "Net Pay: Please enter valid inputs.";
+                return;
+            }
+
+            const grossPay = hours * rate;
+            const taxDeduction = grossPay * 0.2;
+            const netPay = grossPay - taxDeduction;
+
+            document.getElementById("gross-pay").innerText = `Gross Pay: $${grossPay.toFixed(2)}`;
+            document.getElementById("tax-deduction").innerText = `Tax Deduction (20%): $${taxDeduction.toFixed(2)}`;
+            document.getElementById("net-pay").innerText = `Net Pay: $${netPay.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
