@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit Conversion Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .converter {
+            margin: 20px auto;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        input, select, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unit Conversion Tool</h1>
+    <div class="converter">
+        <label for="conversion-type">Select Conversion Type:</label>
+        <select id="conversion-type">
+            <option value="c-to-f">Celsius to Fahrenheit</option>
+            <option value="f-to-c">Fahrenheit to Celsius</option>
+            <option value="m-to-ft">Meters to Feet</option>
+            <option value="ft-to-m">Feet to Meters</option>
+        </select>
+
+        <input type="number" id="input-value" placeholder="Enter value">
+        <button onclick="convert()">Convert</button>
+
+        <p id="result">Result: </p>
+    </div>
+
+    <script>
+        function convert() {
+            const conversionType = document.getElementById("conversion-type").value;
+            const inputValue = parseFloat(document.getElementById("input-value").value);
+            let result;
+
+            if (isNaN(inputValue)) {
+                document.getElementById("result").innerText = "Please enter a valid number.";
+                return;
+            }
+
+            switch (conversionType) {
+                case "c-to-f":
+                    result = (inputValue * 9 / 5) + 32;
+                    document.getElementById("result").innerText = `${inputValue}°C is ${result.toFixed(2)}°F`;
+                    break;
+                case "f-to-c":
+                    result = (inputValue - 32) * 5 / 9;
+                    document.getElementById("result").innerText = `${inputValue}°F is ${result.toFixed(2)}°C`;
+                    break;
+                case "m-to-ft":
+                    result = inputValue * 3.28084;
+                    document.getElementById("result").innerText = `${inputValue} meters is ${result.toFixed(2)} feet`;
+                    break;
+                case "ft-to-m":
+                    result = inputValue / 3.28084;
+                    document.getElementById("result").innerText = `${inputValue} feet is ${result.toFixed(2)} meters`;
+                    break;
+                default:
+                    document.getElementById("result").innerText = "Invalid conversion type.";
+            }
+        }
+    </script>
+</body>
+</html>
