@@ -1,110 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Conversion Tool</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Conversion Tool</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
         .container {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
         }
         label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
             display: block;
-            margin-top: 10px;
+            color: #555;
         }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .btn {
             background-color: #4CAF50;
             color: white;
+            padding: 12px 20px;
+            font-size: 1em;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
+            width: 100%;
         }
-        button:hover {
+        .btn:hover {
             background-color: #45a049;
         }
-        .home-button {
-            background-color: #007BFF;
+        .result {
+            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            text-align: center;
+            color: #333;
         }
-        .home-button:hover {
-            background-color: #0056b3;
+        .home-btn {
+            background-color: #008CBA;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .home-btn:hover {
+            background-color: #007b8a;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Conversion Tool</h2>
 
-        <label for="conversion-type">Choose Conversion Type:</label>
-        <select id="conversion-type" onchange="clearInputs()">
-            <option value="CtoF">Celsius to Fahrenheit</option>
-            <option value="FtoC">Fahrenheit to Celsius</option>
-            <option value="MtoF">Meters to Feet</option>
-            <option value="FtoM">Feet to Meters</option>
-        </select>
+<div class="container">
+    <h1>Unit Conversion Tool</h1>
 
-        <label for="input-value">Enter Value:</label>
-        <input type="number" id="input-value" placeholder="Enter value" oninput="performConversion()">
+    <label for="conversionType">Select Conversion Type:</label>
+    <select id="conversionType">
+        <option value="cToF">Celsius to Fahrenheit</option>
+        <option value="fToC">Fahrenheit to Celsius</option>
+        <option value="mToF">Meters to Feet</option>
+        <option value="fToM">Feet to Meters</option>
+    </select>
 
-        <h3>Result:</h3>
-        <p id="result">--</p>
+    <label for="inputValue">Enter value to convert:</label>
+    <input type="number" id="inputValue" placeholder="Enter value" required>
 
-        <button class="home-button" onclick="goHome()">Back to Home</button>
-    </div>
+    <button class="btn" onclick="convert()">Convert</button>
 
-    <script>
-        function performConversion() {
-            const conversionType = document.getElementById('conversion-type').value;
-            const inputValue = parseFloat(document.getElementById('input-value').value);
-            const resultElement = document.getElementById('result');
+    <div class="result" id="result" style="display: none;"></div>
 
-            if (isNaN(inputValue)) {
-                resultElement.textContent = '--';
-                return;
-            }
+    <button class="btn home-btn" onclick="goHome()">Back to Home</button>
+</div>
 
-            let result;
+<script>
+    function convert() {
+        var conversionType = document.getElementById("conversionType").value;
+        var inputValue = parseFloat(document.getElementById("inputValue").value);
+        var result = document.getElementById("result");
 
-            switch (conversionType) {
-                case 'CtoF':
-                    result = (inputValue * 9/5) + 32;
-                    resultElement.textContent = `${inputValue} °C = ${result.toFixed(2)} °F`;
-                    break;
-                case 'FtoC':
-                    result = (inputValue - 32) * 5/9;
-                    resultElement.textContent = `${inputValue} °F = ${result.toFixed(2)} °C`;
-                    break;
-                case 'MtoF':
-                    result = inputValue * 3.28084;
-                    resultElement.textContent = `${inputValue} m = ${result.toFixed(2)} ft`;
-                    break;
-                case 'FtoM':
-                    result = inputValue / 3.28084;
-                    resultElement.textContent = `${inputValue} ft = ${result.toFixed(2)} m`;
-                    break;
-                default:
-                    resultElement.textContent = '--';
-            }
+        if (isNaN(inputValue)) {
+            alert("Please enter a valid number!");
+            return;
         }
 
-        function clearInputs() {
-            document.getElementById('input-value').value = '';
-            document.getElementById('result').textContent = '--';
+        var convertedValue;
+        var resultText;
+
+        // Conversion logic
+        switch(conversionType) {
+            case "cToF":
+                convertedValue = (inputValue * 9/5) + 32;
+                resultText = inputValue + " °C = " + convertedValue.toFixed(2) + " °F";
+                break;
+            case "fToC":
+                convertedValue = (inputValue - 32) * 5/9;
+                resultText = inputValue + " °F = " + convertedValue.toFixed(2) + " °C";
+                break;
+            case "mToF":
+                convertedValue = inputValue * 3.28084;
+                resultText = inputValue + " meters = " + convertedValue.toFixed(2) + " feet";
+                break;
+            case "fToM":
+                convertedValue = inputValue / 3.28084;
+                resultText = inputValue + " feet = " + convertedValue.toFixed(2) + " meters";
+                break;
         }
 
-        function goHome() {
-            alert('Returning to home page...');
-            // Here, you can redirect to the homepage or perform other actions
-            window.location.href = '/';
-        }
-    </script>
+        // Display the result
+        result.style.display = "block";
+        result.innerHTML = resultText;
+    }
+
+    function goHome() {
+        window.location.href = "index.html";
+    }
+</script>
+
 </body>
 </html>
