@@ -1,78 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Factorial, Sum, and Average Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
             text-align: center;
+            color: #333;
         }
-        .calculator {
-            margin: 20px auto;
-            width: 300px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
+        label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
         }
-        input, button {
-            margin: 10px 0;
-            padding: 10px;
+        input[type="number"] {
             width: 100%;
-            font-size: 16px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            text-align: center;
+            color: #333;
+        }
+        .home-btn {
+            background-color: #008CBA;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .home-btn:hover {
+            background-color: #007b8a;
         }
     </style>
 </head>
 <body>
-    <h1>Factorial, Sum, and Average Calculator</h1>
-    <div class="calculator">
-        <label for="number">Enter a Number (N):</label>
-        <input type="number" id="number" placeholder="Enter a number">
-        <button onclick="calculateResults()">Calculate</button>
 
-        <p id="factorial-result">Factorial: </p>
-        <p id="sum-result">Sum: </p>
-        <p id="average-result">Average: </p>
-    </div>
+<div class="container">
+    <h1>Income Tax Calculator</h1>
+    <label for="income">Enter your annual income ($):</label>
+    <input type="number" id="income" placeholder="Enter income" required>
+    
+    <button class="btn" onclick="calculateTax()">Calculate Tax</button>
 
-    <script>
-        function calculateResults() {
-            const n = parseInt(document.getElementById("number").value);
+    <div class="result" id="taxResult" style="display: none;"></div>
 
-            if (isNaN(n) || n <= 0) {
-                document.getElementById("factorial-result").innerText = "Factorial: Please enter a positive integer.";
-                document.getElementById("sum-result").innerText = "Sum: Please enter a positive integer.";
-                document.getElementById("average-result").innerText = "Average: Please enter a positive integer.";
-                return;
-            }
+    <button class="btn home-btn" onclick="goHome()">Back to Home</button>
+</div>
 
-            // Factorial using while loop
-            let factorial = 1;
-            let i = 1;
-            while (i <= n) {
-                factorial *= i;
-                i++;
-            }
-            document.getElementById("factorial-result").innerText = `Factorial: ${factorial}`;
+<script>
+    function calculateTax() {
+        var income = document.getElementById("income").value;
+        var tax = 0;
 
-            // Sum using do-while loop
-            let sum = 0;
-            let j = 1;
-            do {
-                sum += j;
-                j++;
-            } while (j <= n);
-            document.getElementById("sum-result").innerText = `Sum: ${sum}`;
-
-            // Average using for loop
-            let total = 0;
-            for (let k = 1; k <= n; k++) {
-                total += k;
-            }
-            const average = total / n;
-            document.getElementById("average-result").innerText = `Average: ${average.toFixed(2)}`;
+        if (income <= 0) {
+            alert("Please enter a valid income");
+            return;
         }
-    </script>
+
+        // Basic tax calculation logic
+        if (income <= 50000) {
+            tax = income * 0.1; // 10% tax rate
+        } else if (income <= 100000) {
+            tax = 5000 + (income - 50000) * 0.2; // 20% tax for income above 50k
+        } else {
+            tax = 15000 + (income - 100000) * 0.3; // 30% tax for income above 100k
+        }
+
+        // Display the result
+        var taxResult = document.getElementById("taxResult");
+        taxResult.style.display = "block";
+        taxResult.innerHTML = "Your tax liability is: $" + tax.toFixed(2);
+    }
+
+    function goHome() {
+        window.location.href = "https://www.w3schools.com";
+    }
+</script>
+
 </body>
 </html>
