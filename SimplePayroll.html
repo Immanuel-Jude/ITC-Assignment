@@ -1,65 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Simple Payroll Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Payroll System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
             text-align: center;
+            color: #333;
         }
-        .calculator {
-            margin: 20px auto;
-            width: 300px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
+        label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
         }
-        input, button {
-            margin: 10px 0;
-            padding: 10px;
+        input[type="text"], input[type="number"] {
             width: 100%;
-            font-size: 16px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            text-align: center;
+            color: #333;
+        }
+        .home-btn {
+            background-color: #008CBA;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .home-btn:hover {
+            background-color: #007b8a;
         }
     </style>
 </head>
 <body>
-    <h1>Simple Payroll Calculator</h1>
-    <div class="calculator">
-        <label for="hours">Enter Hours Worked:</label>
-        <input type="number" id="hours" placeholder="Enter hours worked">
 
-        <label for="rate">Enter Hourly Rate:</label>
-        <input type="number" id="rate" placeholder="Enter hourly rate">
+<div class="container">
+    <h1>Simple Payroll System</h1>
 
-        <button onclick="calculatePayroll()">Calculate Payroll</button>
+    <label for="employeeName">Employee Name:</label>
+    <input type="text" id="employeeName" placeholder="Enter employee name" required>
 
-        <p id="gross-pay">Gross Pay: </p>
-        <p id="tax-deduction">Tax Deduction (20%): </p>
-        <p id="net-pay">Net Pay: </p>
-    </div>
+    <label for="hourlyWage">Hourly Wage ($):</label>
+    <input type="number" id="hourlyWage" placeholder="Enter hourly wage" required>
 
-    <script>
-        function calculatePayroll() {
-            const hours = parseFloat(document.getElementById("hours").value);
-            const rate = parseFloat(document.getElementById("rate").value);
+    <label for="hoursWorked">Hours Worked:</label>
+    <input type="number" id="hoursWorked" placeholder="Enter hours worked" required>
 
-            if (isNaN(hours) || hours <= 0 || isNaN(rate) || rate <= 0) {
-                document.getElementById("gross-pay").innerText = "Gross Pay: Please enter valid inputs.";
-                document.getElementById("tax-deduction").innerText = "Tax Deduction: Please enter valid inputs.";
-                document.getElementById("net-pay").innerText = "Net Pay: Please enter valid inputs.";
-                return;
-            }
+    <button class="btn" onclick="calculatePayroll()">Calculate Payroll</button>
 
-            const grossPay = hours * rate;
-            const taxDeduction = grossPay * 0.2;
-            const netPay = grossPay - taxDeduction;
+    <div class="result" id="payrollResult" style="display: none;"></div>
 
-            document.getElementById("gross-pay").innerText = `Gross Pay: $${grossPay.toFixed(2)}`;
-            document.getElementById("tax-deduction").innerText = `Tax Deduction (20%): $${taxDeduction.toFixed(2)}`;
-            document.getElementById("net-pay").innerText = `Net Pay: $${netPay.toFixed(2)}`;
+    <button class="btn home-btn" onclick="goHome()">Back to Home</button>
+</div>
+
+<script>
+    function calculatePayroll() {
+        var employeeName = document.getElementById("employeeName").value;
+        var hourlyWage = parseFloat(document.getElementById("hourlyWage").value);
+        var hoursWorked = parseFloat(document.getElementById("hoursWorked").value);
+
+        if (!employeeName || isNaN(hourlyWage) || isNaN(hoursWorked) || hourlyWage <= 0 || hoursWorked <= 0) {
+            alert("Please fill in all fields with valid numbers.");
+            return;
         }
-    </script>
+
+        // Gross Pay calculation
+        var grossPay = hourlyWage * hoursWorked;
+
+        // Tax calculation (let's assume a flat 15% tax rate)
+        var tax = grossPay * 0.15;
+
+        // Net Pay calculation
+        var netPay = grossPay - tax;
+
+        // Display the results
+        var resultDiv = document.getElementById("payrollResult");
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = `
+            <strong>Payroll for ${employeeName}:</strong><br>
+            Gross Pay: $${grossPay.toFixed(2)}<br>
+            Tax (15%): $${tax.toFixed(2)}<br>
+            Net Pay: $${netPay.toFixed(2)}
+        `;
+    }
+
+    function goHome() {
+        window.location.href = "index.html";
+    }
+</script>
+
 </body>
 </html>
