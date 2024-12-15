@@ -1,96 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Income Tax Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
             text-align: center;
+            color: #333;
         }
-        .calculator {
-            margin: 20px auto;
-            width: 300px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
+        label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
         }
-        input, select, button {
-            margin: 10px 0;
-            padding: 10px;
+        input[type="number"] {
             width: 100%;
-            font-size: 16px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            text-align: center;
+            color: #333;
+        }
+        .home-btn {
+            background-color: #008CBA;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .home-btn:hover {
+            background-color: #007b8a;
         }
     </style>
 </head>
 <body>
+
+<div class="container">
     <h1>Income Tax Calculator</h1>
-    <div class="calculator">
-        <label for="income">Enter Your Annual Income:</label>
-        <input type="number" id="income" placeholder="Enter income">
+    <label for="income">Enter your annual income ($):</label>
+    <input type="number" id="income" placeholder="Enter income" required>
+    
+    <button class="btn" onclick="calculateTax()">Calculate Tax</button>
 
-        <label for="filing-status">Select Filing Status:</label>
-        <select id="filing-status">
-            <option value="single">Single</option>
-            <option value="married">Married</option>
-            <option value="head">Head of Household</option>
-        </select>
+    <div class="result" id="taxResult" style="display: none;"></div>
 
-        <button onclick="calculateTax()">Calculate Tax</button>
+    <button class="btn home-btn" onclick="goHome()">Back to Home</button>
+</div>
 
-        <p id="tax-result">Tax Owed: </p>
-    </div>
+<script>
+    function calculateTax() {
+        var income = document.getElementById("income").value;
+        var tax = 0;
 
-    <script>
-        function calculateTax() {
-            const income = parseFloat(document.getElementById("income").value);
-            const filingStatus = document.getElementById("filing-status").value;
-            let taxOwed;
-
-            if (isNaN(income) || income < 0) {
-                document.getElementById("tax-result").innerText = "Please enter a valid income.";
-                return;
-            }
-
-            // Simplified tax brackets
-            if (filingStatus === "single") {
-                if (income <= 9950) {
-                    taxOwed = income * 0.10;
-                } else if (income <= 40525) {
-                    taxOwed = 995 + (income - 9950) * 0.12;
-                } else if (income <= 86375) {
-                    taxOwed = 4664 + (income - 40525) * 0.22;
-                } else {
-                    taxOwed = 14751 + (income - 86375) * 0.24;
-                }
-            } else if (filingStatus === "married") {
-                if (income <= 19900) {
-                    taxOwed = income * 0.10;
-                } else if (income <= 81050) {
-                    taxOwed = 1990 + (income - 19900) * 0.12;
-                } else if (income <= 172750) {
-                    taxOwed = 9328 + (income - 81050) * 0.22;
-                } else {
-                    taxOwed = 29502 + (income - 172750) * 0.24;
-                }
-            } else if (filingStatus === "head") {
-                if (income <= 14200) {
-                    taxOwed = income * 0.10;
-                } else if (income <= 54200) {
-                    taxOwed = 1420 + (income - 14200) * 0.12;
-                } else if (income <= 86350) {
-                    taxOwed = 6220 + (income - 54200) * 0.22;
-                } else {
-                    taxOwed = 13293 + (income - 86350) * 0.24;
-                }
-            } else {
-                document.getElementById("tax-result").innerText = "Invalid filing status.";
-                return;
-            }
-
-            document.getElementById("tax-result").innerText = `Tax Owed: $${taxOwed.toFixed(2)}`;
+        if (income <= 0) {
+            alert("Please enter a valid income");
+            return;
         }
-    </script>
+
+        // Basic tax calculation logic
+        if (income <= 50000) {
+            tax = income * 0.1; // 10% tax rate
+        } else if (income <= 100000) {
+            tax = 5000 + (income - 50000) * 0.2; // 20% tax for income above 50k
+        } else {
+            tax = 15000 + (income - 100000) * 0.3; // 30% tax for income above 100k
+        }
+
+        // Display the result
+        var taxResult = document.getElementById("taxResult");
+        taxResult.style.display = "block";
+        taxResult.innerHTML = "Your tax liability is: $" + tax.toFixed(2);
+    }
+
+    function goHome() {
+        window.location.href = "index.html";
+    }
+</script>
+
 </body>
 </html>
