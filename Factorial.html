@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Income Tax Calculator</title>
+    <title>Factorial, Sum, and Average</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -72,40 +72,60 @@
 <body>
 
 <div class="container">
-    <h1>Income Tax Calculator</h1>
-    <label for="income">Enter your annual income ($):</label>
-    <input type="number" id="income" placeholder="Enter income" required>
-    
-    <button class="btn" onclick="calculateTax()">Calculate Tax</button>
+    <h1>Factorial, Sum, and Average of First N Natural Numbers</h1>
 
-    <div class="result" id="taxResult" style="display: none;"></div>
+    <label for="nValue">Enter a number N:</label>
+    <input type="number" id="nValue" placeholder="Enter a number" required>
+
+    <button class="btn" onclick="calculate()">Calculate</button>
+
+    <div class="result" id="factorialResult" style="display: none;"></div>
+    <div class="result" id="sumResult" style="display: none;"></div>
+    <div class="result" id="averageResult" style="display: none;"></div>
 
     <button class="btn home-btn" onclick="goHome()">Back to Home</button>
 </div>
 
 <script>
-    function calculateTax() {
-        var income = document.getElementById("income").value;
-        var tax = 0;
-
-        if (income <= 0) {
-            alert("Please enter a valid income");
+    function calculate() {
+        var n = parseInt(document.getElementById("nValue").value);
+        if (isNaN(n) || n <= 0) {
+            alert("Please enter a valid number greater than 0.");
             return;
         }
 
-        // Basic tax calculation logic
-        if (income <= 50000) {
-            tax = income * 0.1; // 10% tax rate
-        } else if (income <= 100000) {
-            tax = 5000 + (income - 50000) * 0.2; // 20% tax for income above 50k
-        } else {
-            tax = 15000 + (income - 100000) * 0.3; // 30% tax for income above 100k
+        // Factorial using While Loop
+        var factorial = 1;
+        var i = 1;
+        while (i <= n) {
+            factorial *= i;
+            i++;
         }
 
-        // Display the result
-        var taxResult = document.getElementById("taxResult");
-        taxResult.style.display = "block";
-        taxResult.innerHTML = "Your tax liability is: $" + tax.toFixed(2);
+        // Sum using Do While Loop
+        var sum = 0;
+        var j = 1;
+        do {
+            sum += j;
+            j++;
+        } while (j <= n);
+
+        // Average using For Loop
+        var total = 0;
+        for (var k = 1; k <= n; k++) {
+            total += k;
+        }
+        var average = total / n;
+
+        // Display Results
+        document.getElementById("factorialResult").style.display = "block";
+        document.getElementById("factorialResult").innerHTML = "Factorial of " + n + " is: " + factorial;
+
+        document.getElementById("sumResult").style.display = "block";
+        document.getElementById("sumResult").innerHTML = "Sum of first " + n + " natural numbers is: " + sum;
+
+        document.getElementById("averageResult").style.display = "block";
+        document.getElementById("averageResult").innerHTML = "Average of first " + n + " natural numbers is: " + average.toFixed(2);
     }
 
     function goHome() {
